@@ -18,9 +18,10 @@ jobs:
           wget -qO- https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz | tar xJf -
           export PATH="./sfdx/bin:$PATH"
 
-      - name: Authenticate with Salesforce
+      - name: Set up Salesforce CLI
         run: |
-          sfdx force:auth:jwt:grant --clientid <client-id> --jwtkeyfile <path-to-private-key> --username <username> --setdefaultdevhubusername --setalias <alias>
+          sfdx --version
+          sfdx plugins:install salesforcedx
 
       - name: Deploy to UAT
         run: |
@@ -30,4 +31,4 @@ jobs:
           git diff-tree --no-commit-id --name-only -r $commitSHA
           echo "+++++++++++++"
           echo "$files"
-          sfdx force:source:deploy -p "$files" -u <sandbox-alias>
+          sfdx force:source:deploy -p "$files" -u "INTEG"
