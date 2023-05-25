@@ -11,7 +11,7 @@ trigger CreateOpportunityOnLead on Lead (after insert) {
         newOpportunity.Amount = 0; // Set appropriate amount
         newOpportunity.AccountId = null; // Set appropriate account ID
 
-        // Add other opportunity field mappings based on your requirements
+        // Add other opportunity field mappings based on your requirements test
 
         newOpportunities.add(newOpportunity);
     }
