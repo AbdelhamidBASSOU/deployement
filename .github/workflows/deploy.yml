@@ -13,15 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Set up Salesforce CLI
-        uses: salesforcedx/sfpowerscripts@v3
-
       - name: Deploy to UAT
-        run: |
-          commitSHA=$(git rev-parse HEAD)
-          files=$(git diff-tree --no-commit-id --name-only --diff-filter=AM -r $commitSHA | tr '\n' ',' | sed 's/,$//')
-          echo "Modified Files:"
-          git diff-tree --no-commit-id --name-only -r $commitSHA
-          echo "+++++++++++++"
-          echo "$files"
-          sfdx force:source:deploy -p "$files" -u "INTEG"
+        uses: salesforcedx/sfpowerscripts@v3
+        with:
+          command: deploy
+          args: -p $(git diff-tree --no-commit-id --name-only --diff-filter=AM -r ${{ github.sha }} | tr '\n' ',' | sed 's/,$//') -u <INTEG>
+        env:
+          SFDX_AUTOUPDATE_DISABLE: true
