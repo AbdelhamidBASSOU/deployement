@@ -13,15 +13,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Install Salesforce CLI
-        run: |
-          wget -qO- https://developer.salesforce.com/media/salesforce-cli/sfdx-linux-amd64.tar.xz | tar xJf -
-          export PATH="./sfdx/bin:$PATH"
-
       - name: Set up Salesforce CLI
-        run: |
-          sfdx --version
-          sfdx plugins:install salesforcedx
+        uses: salesforcedx/sfpowerscripts@v3
 
       - name: Deploy to UAT
         run: |
